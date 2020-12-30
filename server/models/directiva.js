@@ -5,20 +5,25 @@ let Schema = mongoose.Schema;
 
 
 let directivaSchema = new Schema({
-    cargo: {
+    id_dir: {
+        type: String,
+        unique: true,
+        required: [true, 'El ID es requerido']
+    },
+    cargo_dir: {
         type: String,
         unique: true,
         required: [true, 'El cargo es requerido']
     },
-    nombre: {
+    nom_dir: {
         type: String,
         required: [true, 'El nombre es requerido']
     },
-    apellido: {
+    ape_dir: {
         type: String,
         required: [true, 'El apellido es requerido']
     },
-    periodo: {
+    periodo_dir: {
         type: String,
         required: [true, 'El periodo es requerido']
     },
@@ -27,7 +32,10 @@ let directivaSchema = new Schema({
 directivaSchema.methods.toJSON = function() {
     let user = this;
     let userObject = user.toObject();
+    delete userObject.password;
     return userObject;
 }
+
+directivaSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser único' })
 
 module.exports = mongoose.model('Directiva', directivaSchema);
