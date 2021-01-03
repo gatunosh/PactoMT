@@ -2,17 +2,9 @@ const express = require('express');
 
 const app = express();
 
-app.get('/asociacion', (req, res) => {
-    res.json({
-        ok: true,
-        message: 'Asociacion'
-    });
-});
-const express = require('express');
-
-const app = express();
 
 app.get('/asociacion', (req, res) => {
+
     res.json({
         ok: true,
         message: 'Asociacion'
@@ -54,7 +46,6 @@ app.post('/asociacion', (req, res) => {
     let body = req.body;
 
     let asociacion = new Asociacion({
-        ID_aso: body.ID_aso,
         nom_aso: body.nom_aso,
         cert_aso: body.cert_aso,
         sector_aso: body.sector_aso,
@@ -83,7 +74,7 @@ app.put('/asociacion/:id', (req, res) => {
 
     let id = req.params.id;
 
-    let body = _.pick(req.body, ['ID', 'nombre','certificado', 'sector', 'barrio', 'parroquia']);
+    let body = _.pick(req.body, ['ID', 'nombre', 'certificado', 'sector', 'barrio', 'parroquia']);
 
     asociacion.findByIdAndUpdate(id, body, { new: true, runValidators: true }, (err, asociacionDB) => {
         if (err) {
@@ -128,8 +119,5 @@ app.delete('/asociacion/:id', (req, res) => {
         });
     });
 });
-
-module.exports = app;
-
 
 module.exports = app;

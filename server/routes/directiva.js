@@ -31,7 +31,7 @@ app.get('/directiva', (req, res) => {
 
             });
         });
-    });
+});
 
 app.post('/directiva', (req, res) => {
 
@@ -67,7 +67,7 @@ app.put('/directiva/:id', (req, res) => {
 
     let id = req.params.id;
 
-    let body = _.pick(req.body, [ 'id', 'cargo', 'nombre', 'apellido', 'periodo']);
+    let body = _.pick(req.body, ['id', 'cargo', 'nombre', 'apellido', 'periodo']);
 
     directiva.findByIdAndUpdate(id, body, { new: true, runValidators: true }, (err, directivaDB) => {
         if (err) {
