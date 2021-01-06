@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
 
 let Schema = mongoose.Schema;
-
 
 let directivaSchema = new Schema({
     cargo_dir: {
@@ -24,7 +22,5 @@ let directivaSchema = new Schema({
     }
 });
 
-
-directivaSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser único' })
 
 module.exports = mongoose.model('Directiva', directivaSchema);
