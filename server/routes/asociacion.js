@@ -1,59 +1,53 @@
 const express = require('express');
+const _ = require("underscore");
+const asociacionModel = require("./../models/asociacion");
 
 const app = express();
 
-
 app.get('/asociacion', (req, res) => {
-
-    res.json({
-        ok: true,
-        message: 'Asociacion'
-    });
-
-    let desde = req.query.desde || 0;
-    desde = Number(desde);
-
-    let limite = req.query.limite || 5;
-    limite = Number(limite);
-
-
-    Asociacion.find({ estado: true }, 'ID Nom_aso')
-        .skip(desde)
-        .limit(limite)
-        .exec((err, asociacion) => {
-            if (err) {
-                return res.status(400).json({
-                    ok: false,
-                    err
-                });
-            }
-
-            Asociacion.count({ estado: true }, (err, conteo) => {
-
-                res.json({
-                    ok: true,
-                    asociacion,
-                    total: conteo
-                });
-
-            });
+    asociacionModel.find((err, asociacionDB) => {
+        if (err) {
+          return res.status(400).json({
+            ok: false,
+            err,
+          });
+        }
+        res.json({
+          ok: true,
+          asociacion: asociacionDB,
         });
-
+      });
 });
+
+app.get("/asociacion/:id", (req, res) => {
+    let id = req.params.id;
+    asociacionModel.findById(id, (err, asociacionDB) => {
+      if (err) {
+        return res.status(400).json({
+          ok: false,
+          err,
+        });
+      }
+      res.json({
+        ok: true,
+        asociacion: asociacionDB,
+      });
+    });
+  });
 
 app.post('/asociacion', (req, res) => {
 
     let body = req.body;
 
-    let asociacion = new Asociacion({
-        nom_aso: body.nom_aso,
-        cert_aso: body.cert_aso,
-        sector_aso: body.sector_aso,
-        barrio_aso: body.barrio_aso,
-        parro_aso: body.parro_aso
+    let dataAsociacion = new asociacionModel({
+        nombre_aso: body.nombre,
+        certificado_aso: body.certificado,
+        sector_aso: body.sector,
+        barrio_aso: body.barrio,
+        parroquia_aso: body.parroquia,      
     });
 
-    asociacion.save((err, asociacionDB) => {
+    dataAsociacion.save((err, asociacionDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -73,51 +67,52 @@ app.post('/asociacion', (req, res) => {
 app.put('/asociacion/:id', (req, res) => {
 
     let id = req.params.id;
+    
+    let body = _.pick(req.body, [
+      "nombre_aso",
+      "certificado_aso",
+      "sector_aso",
+      "barrio_aso",
+      "parroquia_aso",
+    ]);
 
-    let body = _.pick(req.body, ['ID', 'nombre', 'certificado', 'sector', 'barrio', 'parroquia']);
-
-    asociacion.findByIdAndUpdate(id, body, { new: true, runValidators: true }, (err, asociacionDB) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
-            });
-        }
-
-        res.json({
-            ok: true,
-            asociacion: asociacionDB
-        })
+    asociacionModel.findByIdAndUpdate(id, body, (err, asociacionDB) => {
+      if (err) {
+        return res.status(400).json({
+          ok: false,
+          err,
+        });
+      }
+      res.json({
+        ok: true,
+        asociacion: asociacionDB,
+        message: "Se actualizo la asociacion correctamente",
+      });
     });
-
 });
 
 app.delete('/asociacion/:id', (req, res) => {
-
-    let id = req.params.id;
-
-    asociacion.findByIdAndUpdate(id, { estado: false }, { new: true }, (err, asociacionBorrado) => {
-        if (err) {
+    if (req.params.id) {
+        let id = req.params.id;
+    
+        asociacionModel.findByIdAndDelete(id, (err) => {
+          if (err) {
             return res.status(400).json({
-                ok: false,
-                err
+              ok: false,
+              err,
             });
-        }
-
-        if (!asociacionBorrado) {
-            return res.status(400).json({
-                ok: false,
-                err: {
-                    message: 'La asociacion no fue encontrada'
-                }
-            });
-        }
-
-        res.json({
+          }
+          res.json({
             ok: true,
-            asociacion: asociacionBorrado
+            message: "Se elimino la asociacion correctamente",
+          });
         });
-    });
+      } else {
+        res.status(400).json({
+          ok: false,
+          message: "Error al querer eliminar",
+        });
+      }
 });
 
 module.exports = app;
