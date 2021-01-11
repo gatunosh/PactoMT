@@ -28,5 +28,4 @@ let asoSchema = new Schema({
 });
 
 
-
 module.exports = mongoose.model('Asociacion', asoSchema);
