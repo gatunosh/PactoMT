@@ -54,76 +54,62 @@ app.post("/producto", (req, res) => {
     if (err) {
       return res.status(400).json({
         ok: false,
-        message: "Error al crear la categoria",
+        message: "Error al crear el producto",
         err,
       });
     }
     res.status(200).json({
       ok: true,
       producto: productoDB,
-      message: "Categoria creada correctamente",
+      message: "Producto creada correctamente",
     });
   });
 });
 
 app.put("/producto/:id", (req, res) => {
-  if (req.params.id) {
-    let id = req.params.id;
-    //Revisar si validar todos los datos
-    let body = _.pick(req.body, [
-      "id_cat",
-      "nom_pro",
-      "desc_pro",
-      "uni_pro",
-      "sto_pro",
-      "pvp_pro",
-      "fecha_ela_pro",
-      "fecha_cad_pro",
-    ]);
+  let id = req.params.id;
+  //Revisar si validar todos los datos
+  let body = _.pick(req.body, [
+    "id_cat",
+    "nom_pro",
+    "desc_pro",
+    "uni_pro",
+    "sto_pro",
+    "pvp_pro",
+    "fecha_ela_pro",
+    "fecha_cad_pro",
+  ]);
 
-    productoModel.findByIdAndUpdate(id, body, (err, productoDB) => {
-      if (err) {
-        return res.status(400).json({
-          ok: false,
-          err,
-        });
-      }
-      res.json({
-        ok: true,
-        producto: productoDB,
-        message: "Se actualizo el producto correctamente",
+  productoModel.findByIdAndUpdate(id, body, (err, productoDB) => {
+    if (err) {
+      return res.status(400).json({
+        ok: false,
+        err,
       });
+    }
+    res.json({
+      ok: true,
+      producto: productoDB,
+      message: "Se actualizo el producto correctamente",
     });
-  } else {
-    return res.status(400).json({
-      ok: false,
-      message: "No se puede actualizar el producto",
-    });
-  }
+  });
 });
 
 app.delete("/producto/:id", (req, res) => {
-  if (req.params.id) {
-    let id = req.params.id;
+  let id = req.params.id;
 
-    productoModel.findByIdAndDelete(id, (err) => {
-      if (err) {
-        return res.status(400).json({
-          ok: false,
-          err,
-        });
-      }
-      res.json({
-        ok: true,
-        message: "Se elimino el producto correctamente",
+  productoModel.findByIdAndDelete(id, (err) => {
+    if (err) {
+      return res.status(400).json({
+        ok: false,
+        err,
       });
+    }
+    res.json({
+      ok: true,
+      message: "Se elimino el producto correctamente",
     });
-  } else {
-    res.status(400).json({
-      ok: false,
-      message: "Error al querer eliminar",
-    });
-  }
+  });
 });
 
 module.exports = app;

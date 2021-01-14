@@ -11,5 +11,6 @@ app.use(require("./directiva"));
 // app.use(require("./capacitacion"));
 app.use(require("./categoriaProducto"));
 app.use(require("./producto"));
+app.use(require("./factura"));
 
 module.exports = app;
