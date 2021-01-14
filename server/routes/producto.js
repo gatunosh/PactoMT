@@ -40,14 +40,14 @@ app.post("/producto", (req, res) => {
   let body = req.body;
 
   let dataProducto = new productoModel({
-    id_cat: body.categoria,
-    nom_pro: body.nombre,
-    desc_pro: body.descripcion,
-    uni_pro: body.unidad,
-    sto_pro: body.stock,
-    pvp_pro: body.pvp,
-    fecha_ela_pro: body.fecha_elaboracion,
-    fecha_cad_pro: body.fecha_caducidad,
+    id_cat: body.id_cat,
+    nom_pro: body.nom_pro,
+    desc_pro: body.desc_pro,
+    uni_pro: body.uni_pro,
+    sto_pro: body.sto_pro,
+    pvp_pro: body.pvp_pro,
+    fecha_ela_pro: body.fecha_ela_pro,
+    fecha_cad_pro: body.fecha_cad_pro,
   });
 
   dataProducto.save((err, productoDB) => {

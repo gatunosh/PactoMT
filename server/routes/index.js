@@ -12,5 +12,6 @@ app.use(require("./directiva"));
 app.use(require("./categoriaProducto"));
 app.use(require("./producto"));
 app.use(require("./factura"));
+app.use(require("./productoSocio"));
 
 module.exports = app;
