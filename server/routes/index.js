@@ -13,5 +13,6 @@ app.use(require("./categoriaProducto"));
 app.use(require("./producto"));
 app.use(require("./factura"));
 app.use(require("./productoSocio"));
+app.use(require("./entidad"));
 
 module.exports = app;
