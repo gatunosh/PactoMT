@@ -5,6 +5,11 @@ const app = express();
 app.use(require("./usuario"));
 app.use(require("./login"));
 
+// imagenes
+app.use(require("./upload"));
+app.use(require("./archivos"));
+
+
 app.use(require("./asociacion"));
 app.use(require("./directiva"));
 app.use(require("./det_hojadecampo"));
