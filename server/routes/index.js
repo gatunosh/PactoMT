@@ -9,12 +9,11 @@ app.use(require("./login"));
 app.use(require("./upload"));
 app.use(require("./archivos"));
 
-
 app.use(require("./asociacion"));
 app.use(require("./directiva"));
 app.use(require("./det_hojadecampo"));
 
-// app.use(require("./capacitacion"));
+app.use(require("./capacitacion"));
 app.use(require("./categoriaProducto"));
 app.use(require("./producto"));
 app.use(require("./factura"));

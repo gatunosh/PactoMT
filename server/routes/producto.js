@@ -6,18 +6,28 @@ const productoModel = require("./../models/producto");
 const app = express();
 
 app.get("/producto", (req, res) => {
-  productoModel.find((err, productoDB) => {
-    if (err) {
-      return res.status(400).json({
-        ok: false,
-        err,
+  let desde = req.query.desde || 0;
+  desde = Number(desde);
+
+  let limite = req.query.limite || 15;
+  limite = Number(limite);
+
+  productoModel
+    .find()
+    .skip(desde)
+    .limit(limite)
+    .exec((err, productoDB) => {
+      if (err) {
+        return res.status(400).json({
+          ok: false,
+          err,
+        });
+      }
+      res.json({
+        ok: true,
+        producto: productoDB,
       });
-    }
-    res.json({
-      ok: true,
-      producto: productoDB,
     });
-  });
 });
 
 app.get("/producto/:id", (req, res) => {
