@@ -5,18 +5,28 @@ const _ = require("underscore");
 const facturaModel = require("./../models/factura");
 
 app.get("/factura", (req, res) => {
-  facturaModel.find((err, facturaDB) => {
-    if (err) {
-      return res.status(400).json({
-        ok: false,
-        err,
+  let desde = req.query.desde || 0;
+  desde = Number(desde);
+
+  let limite = req.query.limite || 15;
+  limite = Number(limite);
+
+  facturaModel
+    .find()
+    .skip(desde)
+    .limit(limite)
+    .exec((err, facturaDB) => {
+      if (err) {
+        return res.status(400).json({
+          ok: false,
+          err,
+        });
+      }
+      res.json({
+        ok: true,
+        factura: facturaDB,
       });
-    }
-    res.json({
-      ok: true,
-      factura: facturaDB,
     });
-  });
 });
 
 app.get("/factura/:id", (req, res) => {

@@ -5,18 +5,28 @@ const _ = require("underscore");
 const productoSocioModel = require("./../models/productoSocio");
 
 app.get("/prodSocio", (req, res) => {
-  productoSocioModel.find((err, prodSocioDB) => {
-    if (err) {
-      return res.status(400).json({
-        ok: false,
-        err,
+  let desde = req.query.desde || 0;
+  desde = Number(desde);
+
+  let limite = req.query.limite || 15;
+  limite = Number(limite);
+
+  productoSocioModel
+    .find()
+    .skip(desde)
+    .limit(limite)
+    .exec((err, prodSocioDB) => {
+      if (err) {
+        return res.status(400).json({
+          ok: false,
+          err,
+        });
+      }
+      res.json({
+        ok: true,
+        prodSocio: prodSocioDB,
       });
-    }
-    res.json({
-      ok: true,
-      prodSocio: prodSocioDB,
     });
-  });
 });
 
 app.get("/prodSocio/:id", (req, res) => {
