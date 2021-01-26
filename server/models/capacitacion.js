@@ -40,6 +40,12 @@ let capacitacionSchema = new Schema({
           type: mongoose.ObjectId,
           required: [true, "Se requiere el id del socio"],
         },
+        cert_asis: {
+          type: Boolean,
+        },
+        cert_part: {
+          type: Boolean,
+        },
       },
     ],
   },
