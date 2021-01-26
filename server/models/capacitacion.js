@@ -33,6 +33,16 @@ let capacitacionSchema = new Schema({
     type: String,
     required: [true, "Hora fin de capacitacion requerido"],
   },
+  asis_cap: {
+    type: [
+      {
+        id_soc: {
+          type: mongoose.ObjectId,
+          required: [true, "Se requiere el id del socio"],
+        },
+      },
+    ],
+  },
 });
 
 module.exports = mongoose.model("Capacitaciones", capacitacionSchema);

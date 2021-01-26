@@ -1,127 +1,157 @@
-const express = require('express');
+const express = require("express");
 
-const bcrypt = require('bcrypt');
-const _ = require('underscore');
+const bcrypt = require("bcrypt");
+const _ = require("underscore");
 
-const Usuario = require('../models/usuario');
-const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticacion');
+const Usuario = require("../models/usuario");
+const {
+  verificaToken,
+  verificaAdmin_Role,
+} = require("../middlewares/autenticacion");
 
 const app = express();
 
-app.get('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
+app.get("/usuario", [verificaToken, verificaAdmin_Role], (req, res) => {
+  let desde = req.query.desde || 0;
+  desde = Number(desde);
 
-    let desde = req.query.desde || 0;
-    desde = Number(desde);
+  let limite = req.query.limite || 5;
+  limite = Number(limite);
 
-    let limite = req.query.limite || 5;
-    limite = Number(limite);
-
-
-    Usuario.find({ estado: true }, 'nombre apellido tlfc tlfm email role estado')
-        .skip(desde)
-        .limit(limite)
-        .exec((err, usuarios) => {
-            if (err) {
-                return res.status(400).json({
-                    ok: false,
-                    err
-                });
-            }
-
-            Usuario.count({ estado: true }, (err, conteo) => {
-
-                res.json({
-                    ok: true,
-                    usuarios,
-                    total: conteo
-                });
-
-            });
+  Usuario.find({ estado: true }, "nombre apellido tlfc tlfm email role estado")
+    .skip(desde)
+    .limit(limite)
+    .exec((err, usuarios) => {
+      if (err) {
+        return res.status(400).json({
+          ok: false,
+          err,
         });
+      }
 
-});
-
-app.post('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
-
-    let body = req.body;
-
-    let usuario = new Usuario({
-        nombre: body.nombre,
-        apellido: body.apellido,
-        tlfc: body.tlfc,
-        tlfm: body.tlfm,
-        email: body.email,
-        password: bcrypt.hashSync(body.password, 10),
-        role: body.role
-    });
-
-    usuario.save((err, usuarioDB) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
-            });
-        }
-
+      Usuario.count({ estado: true }, (err, conteo) => {
         res.json({
-            ok: true,
-            usuario: usuarioDB
+          ok: true,
+          usuarios,
+          total: conteo,
         });
-
+      });
     });
-
-
 });
 
-app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
+app.get("/usuario/:correo", (req, res) => {
+  let correo = req.params.correo;
 
-    let id = req.params.id;
+  Usuario.findOne({ email: correo }, (err, usuarioDB) => {
+    if (err) {
+      return res.status(400).json({
+        ok: false,
+        err,
+      });
+    }
 
-    let body = _.pick(req.body, ['nombre', 'apellido', 'tlfc', 'email', 'tlfm', 'hectareas', 'sector', 'barrio', 'parroquia', 'estado', 'role']);
-
-    usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true }, (err, usuarioDB) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
-            });
-        }
-
-        res.json({
-            ok: true,
-            usuario: usuarioDB
-        })
+    res.json({
+      ok: true,
+      usuario: usuarioDB,
     });
-
+  });
 });
 
-app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
+app.post("/usuario", [verificaToken, verificaAdmin_Role], (req, res) => {
+  let body = req.body;
 
-    let id = req.params.id;
+  let usuario = new Usuario({
+    nombre: body.nombre,
+    apellido: body.apellido,
+    tlfc: body.tlfc,
+    tlfm: body.tlfm,
+    email: body.email,
+    password: bcrypt.hashSync(body.password, 10),
+    role: body.role,
+  });
 
-    Usuario.findByIdAndUpdate(id, { estado: false }, { new: true }, (err, usuarioBorrado) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
-            });
-        }
+  usuario.save((err, usuarioDB) => {
+    if (err) {
+      return res.status(400).json({
+        ok: false,
+        err,
+      });
+    }
 
-        if (!usuarioBorrado) {
-            return res.status(400).json({
-                ok: false,
-                err: {
-                    message: 'El usuario no fue encontrado'
-                }
-            });
-        }
+    res.json({
+      ok: true,
+      usuario: usuarioDB,
+    });
+  });
+});
 
-        res.json({
-            ok: true,
-            usuario: usuarioBorrado
+app.put("/usuario/:id", [verificaToken, verificaAdmin_Role], (req, res) => {
+  let id = req.params.id;
+
+  let body = _.pick(req.body, [
+    "nombre",
+    "apellido",
+    "tlfc",
+    "email",
+    "tlfm",
+    "hectareas",
+    "sector",
+    "barrio",
+    "parroquia",
+    "estado",
+    "role",
+  ]);
+
+  usuario.findByIdAndUpdate(
+    id,
+    body,
+    { new: true, runValidators: true },
+    (err, usuarioDB) => {
+      if (err) {
+        return res.status(400).json({
+          ok: false,
+          err,
         });
-    });
+      }
+
+      res.json({
+        ok: true,
+        usuario: usuarioDB,
+      });
+    }
+  );
 });
 
+app.delete("/usuario/:id", [verificaToken, verificaAdmin_Role], (req, res) => {
+  let id = req.params.id;
+
+  Usuario.findByIdAndUpdate(
+    id,
+    { estado: false },
+    { new: true },
+    (err, usuarioBorrado) => {
+      if (err) {
+        return res.status(400).json({
+          ok: false,
+          err,
+        });
+      }
+
+      if (!usuarioBorrado) {
+        return res.status(400).json({
+          ok: false,
+          err: {
+            message: "El usuario no fue encontrado",
+          },
+        });
+      }
+
+      res.json({
+        ok: true,
+        usuario: usuarioBorrado,
+      });
+    }
+  );
+});
 
 module.exports = app;

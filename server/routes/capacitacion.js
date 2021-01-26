@@ -54,6 +54,7 @@ app.post("/capacitacion", (req, res) => {
     fech_fin_cap: body.fech_fin_cap,
     hora_ini_cap: body.hora_ini_cap,
     hora_fin_cap: body.hora_fin_cap,
+    asis_cap: body.asis_cap,
   });
 
   dataCapacitacion.save((err, capacitacionDB) => {
@@ -82,6 +83,7 @@ app.put("/capacitacion/:id", (req, res) => {
     "fech_fin_cap",
     "hora_ini_cap",
     "hora_fin_cap",
+    "asis_cap",
   ]);
 
   capacitacionModel.findByIdAndUpdate(id, body, (err, capacitacionDB) => {
