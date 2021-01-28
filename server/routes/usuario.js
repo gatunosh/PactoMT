@@ -99,7 +99,7 @@ app.put("/usuario/:id", [verificaToken], (req, res) => {
         "role",
     ]);
 
-    usuario.findByIdAndUpdate(
+    Usuario.findByIdAndUpdate(
         id,
         body, { new: true, runValidators: true },
         (err, usuarioDB) => {
