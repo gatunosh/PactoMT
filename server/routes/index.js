@@ -21,5 +21,6 @@ app.use(require("./productoSocio"));
 app.use(require("./entidad"));
 
 app.use(require("./reuniones"));
+app.use(require("./multa"));
 
 module.exports = app;
