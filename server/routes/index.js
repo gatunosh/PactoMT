@@ -20,6 +20,6 @@ app.use(require("./factura"));
 app.use(require("./productoSocio"));
 app.use(require("./entidad"));
 
-app.use(require("./Reuniones"));
+app.use(require("./reuniones"));
 
 module.exports = app;
