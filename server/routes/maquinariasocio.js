@@ -41,9 +41,9 @@ app.post("/maquinariasocio", (req, res) => {
   let dataMaquinariasocio = new maquinariasocioModel({
     id_mant: body.id_mant,
     id_soc: body.id_soc,
-    tipo_maq: body.tipo,
-    est_maq: body.estado,
-    asociacion_maq: body.asociacionmaq,
+    tipo_maq: body.tipo_maq,
+    est_maq: body.est_maq,
+    asociacion_maq: body.asociacion_maq,
   });
 
   dataMaquinariasocio.save((err, maquinariasocioDB) => {

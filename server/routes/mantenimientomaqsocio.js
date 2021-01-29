@@ -40,9 +40,9 @@ app.post("/mantenimientomaqsocio", (req, res) => {
 
   let dataMantenimientomaqsocio = new mantenimientomaqsocioModel({
     id_maq_soc: body.id_maq_soc,
-    tipo_man_maq: body.tipo,
-    des_man_maq: body.descripcion,
-    check_man_maq: body.chequeo,
+    tipo_man_maq: body.tipo_man_maq,
+    des_man_maq: body.des_man_maq,
+    check_man_maq: body.check_man_maq,
   });
 
   dataMantenimientomaqsocio.save((err, mantenimientomaqsocioDB) => {
