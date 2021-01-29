@@ -49,6 +49,7 @@ app.post("/entidad", (req, res) => {
   let body = req.body;
 
   let dataEntidad = new entidadModel({
+    cap_enti: body.cap_enti,
     nom_enti: body.nom_enti,
     tipo_enti: body.tipo_enti,
     dir_enti: body.dir_enti,
@@ -77,6 +78,7 @@ app.put("/entidad/:id", (req, res) => {
   let id = req.params.id;
 
   let body = _.pick(req.body, [
+    "cap_enti",
     "nom_enti",
     "tipo_enti",
     "dir_enti",

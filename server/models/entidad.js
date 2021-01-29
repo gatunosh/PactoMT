@@ -3,6 +3,16 @@ const mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 
 let entidadSchema = new Schema({
+  cap_enti: {
+    type: [
+      {
+        id_cap: {
+          type: Schema.Types.ObjectId,
+          ref: "Capacitaciones",
+        },
+      },
+    ],
+  },
   nom_enti: {
     type: String,
     required: [true, "Nombre de entidad requerido"],

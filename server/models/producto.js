@@ -4,7 +4,7 @@ let Schema = mongoose.Schema;
 
 let productoSchema = new Schema({
   id_cat: {
-    type: mongoose.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "CategoriaProducto",
     required: [true, "El nombre de la categoria es requerido"],
   },

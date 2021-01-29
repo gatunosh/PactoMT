@@ -4,7 +4,8 @@ let Schema = mongoose.Schema;
 
 let facturaSchema = new Schema({
   id_cli: {
-    type: mongoose.ObjectId,
+    type: Schema.Types.ObjectId,
+    ref: "Usuario",
     required: [true, "El id del cliente es requerido"],
   },
   fec_fac: {
@@ -20,7 +21,8 @@ let facturaSchema = new Schema({
     type: [
       {
         id_pro: {
-          type: mongoose.ObjectId,
+          type: Schema.Types.ObjectId,
+          ref: "Producto",
           required: [true, "El id del producto es requerido"],
         },
         cantidad: {

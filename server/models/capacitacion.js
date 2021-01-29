@@ -7,7 +7,8 @@ let capacitacionSchema = new Schema({
     type: [
       {
         id_enti: {
-          type: mongoose.ObjectId,
+          type: Schema.Types.ObjectId,
+          ref: "Entidades",
           required: [true, "Se requiere el id de la entidad capacitadora"],
         },
       },
@@ -37,7 +38,8 @@ let capacitacionSchema = new Schema({
     type: [
       {
         id_soc: {
-          type: mongoose.ObjectId,
+          type: Schema.Types.ObjectId,
+          ref: "Usuarios",
           required: [true, "Se requiere el id del socio"],
         },
         cert_asis: {
