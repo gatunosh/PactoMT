@@ -40,9 +40,15 @@ app.post("/mantenimientomaqsocio", (req, res) => {
 
   let dataMantenimientomaqsocio = new mantenimientomaqsocioModel({
     id_maq_soc: body.id_maq_soc,
+    fech_man_maq: body.fech_man_maq,
     tipo_man_maq: body.tipo_man_maq,
     des_man_maq: body.des_man_maq,
     check_man_maq: body.check_man_maq,
+    costo_man_maq: body.costo_man_maq,
+    marca_man_maq: body.marca_man_maq,
+    km_man_maq: body.km_man_maq,
+    placa_man_maq: body.placa_man_maq,
+    origen_man_maq: body.origen_man_maq,
   });
 
   dataMantenimientomaqsocio.save((err, mantenimientomaqsocioDB) => {
@@ -65,9 +71,15 @@ app.put("/mantenimientomaqsocio/:id", (req, res) => {
 
   let body = _.pick(req.body, [
     "id_maq_soc",
+    "fech_man_maq",
     "tipo_man_maq",
     "des_man_maq",
     "check_man_maq",
+    "costo_man_maq",
+    "marca_man_maq",
+    "km_man_maq",
+    "placa_man_maq",
+    "origen_man_maq",
   ]);
 
   mantenimientomaqsocioModel.findByIdAndUpdate(
