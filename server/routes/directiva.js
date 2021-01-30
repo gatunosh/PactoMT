@@ -46,6 +46,7 @@ app.post('/directiva', verificaToken, (req, res) => {
         nom_dir: body.nom_dir,
         ape_dir: body.ape_dir,
         periodo_dir: body.periodo_dir,
+        id_asoc: body.id_asoc
     });
 
     dataDirectiva.save((err, directivaDB) => {

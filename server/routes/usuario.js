@@ -65,6 +65,7 @@ app.post("/usuario", (req, res) => {
         email: body.email,
         password: bcrypt.hashSync(body.password, 10),
         role: body.role,
+        id_asociacion: body.id_asociacion
     });
 
     usuario.save((err, usuarioDB) => {
