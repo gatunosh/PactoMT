@@ -17,6 +17,8 @@ app.get("/factura", verificaToken, (req, res) => {
 
     facturaModel
         .find()
+        .populate('id_cli')
+        .populate('detalle.id_pro')
         .skip(desde)
         .limit(limite)
         .exec((err, facturaDB) => {

@@ -7,18 +7,21 @@ const {
 const app = express();
 
 app.get("/maquinariasocio", verificaToken, (req, res) => {
-    maquinariasocioModel.find((err, maquinariasocioDB) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err,
+    maquinariasocioModel.find({})
+        .populate('id_mant.id_mant')
+        .populate('id_soc')
+        .exec((err, maquinariasocioDB) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err,
+                });
+            }
+            res.json({
+                ok: true,
+                maquinariasocio: maquinariasocioDB,
             });
-        }
-        res.json({
-            ok: true,
-            maquinariasocio: maquinariasocioDB,
         });
-    });
 });
 
 app.get("/maquinariasocio/:id", verificaToken, (req, res) => {

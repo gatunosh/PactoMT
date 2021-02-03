@@ -7,18 +7,20 @@ const {
 const app = express();
 
 app.get("/mantenimientomaqsocio", verificaToken, (req, res) => {
-    mantenimientomaqsocioModel.find((err, mantenimientomaqsocioDB) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err,
+    mantenimientomaqsocioModel.find()
+        .populate('id_maq_soc.id_maq_soc')
+        .exec((err, mantenimientomaqsocioDB) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err,
+                });
+            }
+            res.json({
+                ok: true,
+                mantenimientomaqsocio: mantenimientomaqsocioDB,
             });
-        }
-        res.json({
-            ok: true,
-            mantenimientomaqsocio: mantenimientomaqsocioDB,
         });
-    });
 });
 
 app.get("/mantenimientomaqsocio/:id", verificaToken, (req, res) => {

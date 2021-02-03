@@ -15,6 +15,9 @@ app.get("/prodSocio", verificaToken, (req, res) => {
 
     productoSocioModel
         .find()
+        .populate('id_pro')
+        .populate('id_soc')
+        .populate('aso_ps')
         .skip(desde)
         .limit(limite)
         .exec((err, prodSocioDB) => {

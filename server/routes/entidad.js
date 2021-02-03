@@ -15,6 +15,7 @@ app.get("/entidad", verificaToken, (req, res) => {
 
     entidadModel
         .find()
+        .populate('cap_enti.id_cap')
         .skip(desde)
         .limit(limite)
         .exec((err, entidadDB) => {

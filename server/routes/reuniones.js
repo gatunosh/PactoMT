@@ -17,6 +17,8 @@ app.get("/reuniones", verificaToken, (req, res) => {
 
     reunionesModel
         .find()
+        .populate('id_asoc_reu')
+        .populate('asistencia.id_soc')
         .skip(desde)
         .limit(limite)
         .exec((err, reunionesDB) => {

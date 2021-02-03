@@ -16,6 +16,7 @@ app.get("/producto", verificaToken, (req, res) => {
 
     productoModel
         .find()
+        .populate('id_cat')
         .skip(desde)
         .limit(limite)
         .exec((err, productoDB) => {

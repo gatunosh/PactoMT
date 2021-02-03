@@ -7,18 +7,20 @@ const {
 const app = express();
 
 app.get("/asociacion", verificaToken, (req, res) => {
-    asociacionModel.find((err, asociacionDB) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err,
+    asociacionModel.find()
+        .populate('id_soc')
+        .exec((err, asociacionDB) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err,
+                });
+            }
+            res.json({
+                ok: true,
+                asociacion: asociacionDB,
             });
-        }
-        res.json({
-            ok: true,
-            asociacion: asociacionDB,
         });
-    });
 });
 
 app.get("/asociacion/:id", verificaToken, (req, res) => {

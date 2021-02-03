@@ -7,18 +7,21 @@ const {
 const app = express();
 
 app.get('/multa', verificaToken, (req, res) => {
-    multaModel.find((err, multaDB) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err,
+    multaModel.find({})
+        .populate('id_soc')
+        .populate('id_reu')
+        .exec((err, multaDB) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err,
+                });
+            }
+            res.json({
+                ok: true,
+                multa: multaDB,
             });
-        }
-        res.json({
-            ok: true,
-            multa: multaDB,
         });
-    });
 });
 
 app.get("/multa/:id", verificaToken, (req, res) => {

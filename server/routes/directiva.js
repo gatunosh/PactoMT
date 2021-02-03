@@ -7,18 +7,20 @@ const {
 const app = express();
 
 app.get('/directiva', verificaToken, (req, res) => {
-    directivaModel.find((err, directivaDB) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err,
+    directivaModel.find()
+        .populate('id_asoc')
+        .exec((err, directivaDB) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err,
+                });
+            }
+            res.json({
+                ok: true,
+                directiva: directivaDB,
             });
-        }
-        res.json({
-            ok: true,
-            directiva: directivaDB,
         });
-    });
 });
 
 app.get("/directiva/:id", verificaToken, (req, res) => {

@@ -17,6 +17,8 @@ app.get("/usuario", [verificaToken, verificaAdmin_Role], (req, res) => {
 
 
     Usuario.find({ estado: true }, "nombre apellido tlfc tlfm email role estado")
+        .sort('email')
+        .populate('id_asociacion.id_asociacion')
         .skip(desde)
         .exec((err, usuarios) => {
             if (err) {

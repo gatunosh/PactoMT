@@ -14,6 +14,8 @@ app.get("/capacitacion", verificaToken, (req, res) => {
     limite = Number(limite);
     capacitacionModel
         .find()
+        .populate('prof_cap.id_enti')
+        .populate('asis_cap.id_soc')
         .skip(desde)
         .limit(limite)
         .exec((err, capacitacionDB) => {
