@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 
 let Schema = mongoose.Schema;
 
+
+let tipo_reu_enum = {
+    values: ['Ordinaria', 'Extraordinaria'],
+    message: '{VALUE} no es un tipo de reunión válida'
+};
+
 let reuSchema = new Schema({
     fec_reu: {
         type: Date,
@@ -38,6 +44,15 @@ let reuSchema = new Schema({
         type: String,
         /*El acta puede ser o no requerida*/
     },
+    tema_reun: {
+        type: String,
+        required: [true, 'El tema es requerido']
+    },
+    tipo_reun: {
+        type: String,
+        default: 'Ordinaria',
+        tipo_reu_enum: tipo_reu_enum
+    }
 
 });
 

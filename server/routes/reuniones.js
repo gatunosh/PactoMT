@@ -60,6 +60,8 @@ app.post("/reuniones", verificaToken, (req, res) => {
         mul_reu: body.mul_reu,
         id_asoc_reu: body.id_asoc_reu,
         asistencia: body.asistencia,
+        tema_reun: body.tema_reun,
+        tipo_reun: body.tipo_reun
     });
 
     dataReuniones.save((err, reunionesDB) => {
@@ -81,7 +83,7 @@ app.post("/reuniones", verificaToken, (req, res) => {
 app.put("/reuniones/:id", verificaToken, (req, res) => {
     let id = req.params.id;
 
-    let body = _.pick(req.body, ["fec_fac", "hor_reu", , "mul_reu", "id_soc_reu", "asistencia"]);
+    let body = _.pick(req.body, ["fec_fac", "hor_reu", , "mul_reu", "id_soc_reu", "asistencia", "tema_reun", "tipo_reun"]);
 
     reunionesModel.findByIdAndUpdate(id, body, (err, reunionesDB) => {
         if (err) {
