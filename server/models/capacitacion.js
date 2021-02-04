@@ -9,7 +9,6 @@ let capacitacionSchema = new Schema({
         id_enti: {
           type: Schema.Types.ObjectId,
           ref: "Entidades",
-          required: [true, "Se requiere el id de la entidad capacitadora"],
         },
       },
     ],
@@ -39,7 +38,7 @@ let capacitacionSchema = new Schema({
       {
         id_soc: {
           type: Schema.Types.ObjectId,
-          ref: "Usuarios",
+          ref: "Usuario",
           required: [true, "Se requiere el id del socio"],
         },
         cert_asis: {

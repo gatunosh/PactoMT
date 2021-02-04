@@ -10,6 +10,14 @@ let Schema = mongoose.Schema;
 
 
 let usuarioSchema = new Schema({
+    id_asociacion: {
+        type: [{
+            id_asociacion: {
+                type: Schema.Types.ObjectId,
+                ref: "Asociacion",
+            },
+        }, ],
+    },
     nombre: {
         type: String,
         required: [true, 'El nombre es requerido']

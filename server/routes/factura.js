@@ -2,9 +2,12 @@ const express = require("express");
 const app = express();
 const _ = require("underscore");
 
-const facturaModel = require("./../models/factura");
+const { verificaToken } = require("../middlewares/autenticacion");
 
-app.get("/factura", (req, res) => {
+const facturaModel = require("./../models/factura");
+const productoModel = require("./../models/producto");
+
+app.get("/factura", verificaToken, (req, res) => {
   let desde = req.query.desde || 0;
   desde = Number(desde);
 
@@ -13,6 +16,8 @@ app.get("/factura", (req, res) => {
 
   facturaModel
     .find()
+    .populate("id_cli")
+    .populate("detalle.id_pro")
     .skip(desde)
     .limit(limite)
     .exec((err, facturaDB) => {
@@ -29,7 +34,7 @@ app.get("/factura", (req, res) => {
     });
 });
 
-app.get("/factura/:id", (req, res) => {
+app.get("/factura/:id", verificaToken, (req, res) => {
   let id = req.params.id;
   facturaModel.findById(id, (err, facturaDB) => {
     if (err) {
@@ -45,14 +50,48 @@ app.get("/factura/:id", (req, res) => {
   });
 });
 
-app.post("/factura", (req, res) => {
+app.post("/factura", verificaToken, async (req, res) => {
   let body = req.body;
+
+  let detalle = body.detalle;
+  let total = 0;
+  for (let item in body.detalle) {
+    var subtotal;
+    var producto = detalle[item];
+    await productoModel.findOne(producto["id"], (err, productoDB) => {
+      if (err) {
+        res.status(400).json({
+          ok: false,
+          err,
+        });
+      }
+      subtotal = productoDB.pvp_pro * producto["cantidad"];
+      total += subtotal;
+      producto["subtotal"] = subtotal;
+      detalle[item] = producto;
+      productoModel.findOneAndUpdate(
+        producto["id"],
+        {
+          $inc: { sto_pro: -detalle[item].cantidad },
+        },
+        (err, productoDB) => {
+          if (err) {
+            res.status(400).json({
+              ok: false,
+              err,
+            });
+          }
+        }
+      );
+    });
+  }
 
   let dataFactura = new facturaModel({
     id_cli: body.id_cli,
     fec_fac: body.fec_fac,
-    tot_fac: body.tot_fac,
-    detalle: body.detalle,
+    tot_fac: total,
+    estado: body.estado,
+    detalle: detalle,
   });
 
   dataFactura.save((err, facturaDB) => {
@@ -71,10 +110,17 @@ app.post("/factura", (req, res) => {
   });
 });
 
-app.put("/factura/:id", (req, res) => {
+app.put("/factura/:id", verificaToken, (req, res) => {
   let id = req.params.id;
 
-  let body = _.pick(req.body, ["id_cli", "fec_fac", , "tot_fac", "detalle"]);
+  let body = _.pick(req.body, [
+    "id_cli",
+    "fec_fac",
+    ,
+    "tot_fac",
+    "estado",
+    "detalle",
+  ]);
 
   facturaModel.findByIdAndUpdate(id, body, (err, facturaDB) => {
     if (err) {
@@ -91,7 +137,7 @@ app.put("/factura/:id", (req, res) => {
   });
 });
 
-app.delete("/factura/:id", (req, res) => {
+app.delete("/factura/:id", verificaToken, (req, res) => {
   let id = req.params.id;
 
   facturaModel.findByIdAndDelete(id, (err) => {

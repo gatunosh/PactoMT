@@ -2,10 +2,10 @@ const express = require("express");
 const _ = require("underscore");
 
 const productoModel = require("./../models/producto");
-
+const { verificaToken } = require("../middlewares/autenticacion");
 const app = express();
 
-app.get("/producto", (req, res) => {
+app.get("/producto", verificaToken, (req, res) => {
   let desde = req.query.desde || 0;
   desde = Number(desde);
 
@@ -14,6 +14,7 @@ app.get("/producto", (req, res) => {
 
   productoModel
     .find()
+    .populate("id_cat")
     .skip(desde)
     .limit(limite)
     .exec((err, productoDB) => {
@@ -30,7 +31,7 @@ app.get("/producto", (req, res) => {
     });
 });
 
-app.get("/producto/:id", (req, res) => {
+app.get("/producto/:id", verificaToken, (req, res) => {
   let id = req.params.id;
   productoModel.findById(id, (err, productoDB) => {
     if (err) {
@@ -46,18 +47,17 @@ app.get("/producto/:id", (req, res) => {
   });
 });
 
-app.post("/producto", (req, res) => {
+app.post("/producto", verificaToken, (req, res) => {
   let body = req.body;
 
   let dataProducto = new productoModel({
     id_cat: body.id_cat,
+    aso_ps: body.aso_ps,
     nom_pro: body.nom_pro,
     desc_pro: body.desc_pro,
     uni_pro: body.uni_pro,
     sto_pro: body.sto_pro,
     pvp_pro: body.pvp_pro,
-    fecha_ela_pro: body.fecha_ela_pro,
-    fecha_cad_pro: body.fecha_cad_pro,
   });
 
   dataProducto.save((err, productoDB) => {
@@ -76,18 +76,17 @@ app.post("/producto", (req, res) => {
   });
 });
 
-app.put("/producto/:id", (req, res) => {
+app.put("/producto/:id", verificaToken, (req, res) => {
   let id = req.params.id;
   //Revisar si validar todos los datos
   let body = _.pick(req.body, [
     "id_cat",
+    "aso_ps",
     "nom_pro",
     "desc_pro",
     "uni_pro",
     "sto_pro",
     "pvp_pro",
-    "fecha_ela_pro",
-    "fecha_cad_pro",
   ]);
 
   productoModel.findByIdAndUpdate(id, body, (err, productoDB) => {
@@ -105,7 +104,7 @@ app.put("/producto/:id", (req, res) => {
   });
 });
 
-app.delete("/producto/:id", (req, res) => {
+app.delete("/producto/:id", verificaToken, (req, res) => {
   let id = req.params.id;
 
   productoModel.findByIdAndDelete(id, (err) => {

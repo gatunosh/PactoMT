@@ -17,6 +17,8 @@ app.get("/usuario", [verificaToken, verificaAdmin_Role], (req, res) => {
 
 
     Usuario.find({ estado: true }, "nombre apellido tlfc tlfm email role estado")
+        .sort('email')
+        .populate('id_asociacion.id_asociacion')
         .skip(desde)
         .exec((err, usuarios) => {
             if (err) {
@@ -65,6 +67,7 @@ app.post("/usuario", [verificaToken, verificaAdmin_Role], (req, res) => {
         email: body.email,
         password: bcrypt.hashSync(body.password, 10),
         role: body.role,
+        id_asociacion: body.id_asociacion
     });
 
     usuario.save((err, usuarioDB) => {
