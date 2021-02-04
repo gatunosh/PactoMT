@@ -34,6 +34,10 @@ let manmaquisocSchema = new Schema({
     type: Number,
     required: [true, "El costo del mantenimiento es requerido"],
   },
+  proximo_man_maq: {
+    type: String,
+    required: [true, "El detalle del proximo mantenimiento es requerido"],
+  },
   marca_man_maq: {
     type: String,
     required: [true, "La marca de la maquinaria es requerido"],
