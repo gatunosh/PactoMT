@@ -3,6 +3,7 @@ const app = express();
 const _ = require("underscore");
 const { verificaToken } = require("../middlewares/autenticacion");
 const productoSocioModel = require("./../models/productoSocio");
+const productoModel = require("./../models/producto");
 
 app.get("/prodSocio", verificaToken, (req, res) => {
   let desde = req.query.desde || 0;
@@ -61,21 +62,32 @@ app.post("/prodSocio", verificaToken, (req, res) => {
     fecha_ela_pro: body.fecha_ela_pro,
     fecha_cad_pro: body.fecha_cad_pro,
   });
-
-  dataProdSocio.save((err, prodSocioDB) => {
-    if (err) {
-      return res.status(400).json({
-        ok: false,
-        message: "Error al crear el producto",
-        err,
+  productoModel.findOneAndUpdate(
+    body.id_pro,
+    { $inc: { sto_pro: body.can_ps } },
+    (err, productoDB) => {
+      if (err) {
+        res.status(400).json({
+          ok: false,
+          err,
+        });
+      }
+      dataProdSocio.save((err, prodSocioDB) => {
+        if (err) {
+          return res.status(400).json({
+            ok: false,
+            message: "Error al crear el producto",
+            err,
+          });
+        }
+        res.json({
+          ok: true,
+          prodSocio: prodSocioDB,
+          message: "Se ha creada el producto",
+        });
       });
     }
-    res.json({
-      ok: true,
-      prodSocio: prodSocioDB,
-      message: "Se ha creada el producto",
-    });
-  });
+  );
 });
 
 app.put("/prodSocio/:id", verificaToken, (req, res) => {
