@@ -15,6 +15,10 @@ let maquisocSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Usuarios",
     },
+    nom_maq: {
+        type: String,
+        required: [true, "El nombre de maquinaria es requerido"],
+    },
     tipo_maq: {
         type: String,
         required: [true, "El tipo de maquinaria es requerido"],

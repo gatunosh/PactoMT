@@ -46,6 +46,7 @@ app.post("/maquinariasocio", verificaToken, (req, res) => {
     let dataMaquinariasocio = new maquinariasocioModel({
         id_mant: body.id_mant,
         id_soc: body.id_soc,
+        nom_maq: body.nom_maq,
         tipo_maq: body.tipo_maq,
         est_maq: body.est_maq,
         asociacion_maq: body.asociacion_maq,
@@ -72,6 +73,7 @@ app.put("/maquinariasocio/:id", verificaToken, (req, res) => {
     let body = _.pick(req.body, [
         "id_mant",
         "id_soc",
+        "nom_maq",
         "tipo_maq",
         "est_maq",
         "asociacion_maq",
