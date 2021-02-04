@@ -13,6 +13,11 @@ let productoSocioSchema = new Schema({
     ref: "Usuario",
     required: [true, "El id del usuario es requerido"],
   },
+  aso_ps: {
+    type: Schema.Types.ObjectId,
+    ref: "Asociacion",
+    required: [true, "El id de la asociacion es requerido"],
+  },
   can_ps: {
     type: Number,
   },
@@ -22,13 +27,11 @@ let productoSocioSchema = new Schema({
   fech_ps: {
     type: Date,
   },
-  aso_ps: {
-    type: Schema.Types.ObjectId,
-    ref: "Asociacion",
-    required: [true, "El id de la asociacion es requerido"],
+  fecha_ela_pro: {
+    type: Date,
   },
-  estado_ps: {
-    type: String,
+  fecha_cad_pro: {
+    type: Date,
   },
 });
 

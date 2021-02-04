@@ -8,6 +8,11 @@ let productoSchema = new Schema({
     ref: "CategoriaProducto",
     required: [true, "El nombre de la categoria es requerido"],
   },
+  aso_ps: {
+    type: Schema.Types.ObjectId,
+    ref: "Asociacion",
+    required: [true, "El id de la asociacion es requerido"],
+  },
   nom_pro: {
     type: String,
     required: [true, "El nombre del producto es requerido"],
@@ -25,12 +30,6 @@ let productoSchema = new Schema({
   pvp_pro: {
     type: Number,
     required: [true, "El precio es requerido"],
-  },
-  fecha_ela_pro: {
-    type: Date,
-  },
-  fecha_cad_pro: {
-    type: Date,
   },
 });
 

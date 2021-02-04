@@ -16,6 +16,10 @@ let facturaSchema = new Schema({
     type: Number,
     required: [true, "El total es requerido"],
   },
+  estado: {
+    type: String,
+    required: [true, "Se requiere el estado de la factura"],
+  },
   detalle: {
     required: [true, "El detalle es requerido"],
     type: [
