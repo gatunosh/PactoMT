@@ -83,7 +83,15 @@ app.post("/reuniones", verificaToken, (req, res) => {
 app.put("/reuniones/:id", verificaToken, (req, res) => {
     let id = req.params.id;
 
-    let body = _.pick(req.body, ["fec_fac", "hor_reu", , "mul_reu", "id_soc_reu", "asistencia", "tema_reun", "tipo_reun"]);
+    let body = _.pick(req.body, [
+        "fec_reu", 
+        "hor_reu",  
+        "mul_reu", 
+        "id_soc_reu", 
+        "asistencia", 
+        "tema_reun", 
+        "tipo_reun"
+    ]);
 
     reunionesModel.findByIdAndUpdate(id, body, (err, reunionesDB) => {
         if (err) {
