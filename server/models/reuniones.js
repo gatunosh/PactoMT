@@ -27,7 +27,6 @@ let reuSchema = new Schema({
         required: [true, "La id de la asociacion es requerido"],
     },
     asistencia: {
-        required: [true, "La asistencia es requerida"],
         type: [{
             id_soc: {
                 type: Schema.Types.ObjectId,
