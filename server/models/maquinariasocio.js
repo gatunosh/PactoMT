@@ -13,7 +13,7 @@ let maquisocSchema = new Schema({
     },
     id_soc: {
         type: Schema.Types.ObjectId,
-        ref: "Usuarios",
+        ref: "Usuario",
     },
     nom_maq: {
         type: String,
