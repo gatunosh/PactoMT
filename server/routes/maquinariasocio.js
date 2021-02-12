@@ -1,15 +1,12 @@
 const express = require("express");
 const _ = require("underscore");
 const maquinariasocioModel = require("./../models/maquinariasocio");
-const {
-    verificaToken,
-} = require("../middlewares/autenticacion");
+
 const app = express();
 
-app.get("/maquinariasocio", verificaToken, (req, res) => {
+app.get("/maquinariasocio", (req, res) => {
     maquinariasocioModel.find({})
-        .populate('id_mant.id_mant')
-        .populate('id_soc')
+        .populate('id_soc.id_soc')
         .exec((err, maquinariasocioDB) => {
             if (err) {
                 return res.status(400).json({
@@ -24,7 +21,7 @@ app.get("/maquinariasocio", verificaToken, (req, res) => {
         });
 });
 
-app.get("/maquinariasocio/:id", verificaToken, (req, res) => {
+app.get("/maquinariasocio/:id",(req, res) => {
     let id = req.params.id;
     maquinariasocioModel.findById(id, (err, maquinariasocioDB) => {
         if (err) {
@@ -40,11 +37,10 @@ app.get("/maquinariasocio/:id", verificaToken, (req, res) => {
     });
 });
 
-app.post("/maquinariasocio", verificaToken, (req, res) => {
+app.post("/maquinariasocio",(req, res) => {
     let body = req.body;
 
     let dataMaquinariasocio = new maquinariasocioModel({
-        id_mant: body.id_mant,
         id_soc: body.id_soc,
         nom_maq: body.nom_maq,
         tipo_maq: body.tipo_maq,
@@ -67,11 +63,10 @@ app.post("/maquinariasocio", verificaToken, (req, res) => {
     });
 });
 
-app.put("/maquinariasocio/:id", verificaToken, (req, res) => {
+app.put("/maquinariasocio/:id",(req, res) => {
     let id = req.params.id;
 
     let body = _.pick(req.body, [
-        "id_mant",
         "id_soc",
         "nom_maq",
         "tipo_maq",
@@ -94,7 +89,7 @@ app.put("/maquinariasocio/:id", verificaToken, (req, res) => {
     });
 });
 
-app.delete("/maquinariasocio/:id", verificaToken, (req, res) => {
+app.delete("/maquinariasocio/:id", (req, res) => {
     if (req.params.id) {
         let id = req.params.id;
 
