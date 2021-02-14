@@ -47,6 +47,9 @@ let capacitacionSchema = new Schema({
         cert_part: {
           type: Boolean,
         },
+        asis_cap: {
+          type: String,
+        },
       },
     ],
   },

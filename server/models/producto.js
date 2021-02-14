@@ -21,7 +21,7 @@ let productoSchema = new Schema({
     type: String,
   },
   uni_pro: {
-    type: Number,
+    type: String,
     required: [true, "El unitario es requerido"],
   },
   sto_pro: {
