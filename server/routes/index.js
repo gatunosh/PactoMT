@@ -25,6 +25,6 @@ app.use(require("./mantenimientomaqsocio"));
 app.use(require("./maquinariasocio"));
 app.use(require("./multa"));
 
-app.use(require("./mensajes"));
+// app.use(require("./mensajes"));
 
 module.exports = app;
