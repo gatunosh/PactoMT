@@ -21,3 +21,8 @@ let multaSchema = new Schema({
 
 
 module.exports = mongoose.model('Multa', multaSchema);
+
+
+
+
+
