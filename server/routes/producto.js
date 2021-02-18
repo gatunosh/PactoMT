@@ -15,6 +15,7 @@ app.get("/producto", verificaToken, (req, res) => {
   productoModel
     .find()
     .populate("id_cat")
+    .populate("aso_ps")
     .skip(desde)
     .limit(limite)
     .exec((err, productoDB) => {
