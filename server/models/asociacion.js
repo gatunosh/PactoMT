@@ -30,7 +30,8 @@ let asoSchema = new Schema({
         }, ],
     },
     logo_aso: {
-        type: String
+        type: String,
+        required: false
     }
 });
 

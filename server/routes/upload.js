@@ -3,14 +3,16 @@ const fileUpload = require('express-fileupload');
 const app = express();
 
 const Usuario = require('../models/usuario');
+const Asociacion = require('../models/asociacion');
 
 const fs = require('fs');
 const path = require('path');
+const { verificaToken, verificaRoleMaster } = require('../middlewares/autenticacion');
 
 app.use(fileUpload({ useTempFiles: true }));
 
 
-app.put('/upload/:tipo/:id', (req, res) => {
+app.put('/upload/:tipo/:id', [verificaToken, verificaRoleMaster], (req, res) => {
 
     let tipo = req.params.tipo;
     let id = req.params.id;
@@ -27,7 +29,7 @@ app.put('/upload/:tipo/:id', (req, res) => {
     }
 
     //Validar tipo
-    let tiposValidos = ['productos', 'usuarios'];
+    let tiposValidos = ['productos', 'usuarios', 'asociacion'];
 
     if (tiposValidos.indexOf(tipo) < 0) {
         return res.status(400).json({
@@ -44,7 +46,7 @@ app.put('/upload/:tipo/:id', (req, res) => {
     let extension = nombreCortado[nombreCortado.length - 1];
 
     //Extensiones permitidas
-    let extensionesValidas = ['png', 'jpg', 'gif', 'jpeg', 'pdf'];
+    let extensionesValidas = ['png', 'jpg', 'gif', 'jpeg', 'pdf', 'doc'];
 
     if (extensionesValidas.indexOf(extension) < 0) {
         return res.status(400).json({
@@ -70,11 +72,9 @@ app.put('/upload/:tipo/:id', (req, res) => {
 
         if (tipo === 'usuarios') {
             imagenUsuario(id, res, nombreArchivo);
+        } else if (tipo === 'asociacion') {
+            imagenAsociacion(id, res, nombreArchivo);
         }
-        // else if (tipo === 'productos') {
-        //     imagenProducto(id, res, nombreArchivo);
-
-        // }
 
 
     });
@@ -113,6 +113,44 @@ imagenUsuario = (id, res, nombreArchivo) => {
                 ok: true,
                 usuario: usuarioGuardado,
                 img: nombreArchivo
+            })
+        });
+
+
+    });
+}
+
+imagenAsociacion = (id, res, nombreArchivo) => {
+
+    Asociacion.findById(id, (err, asociacionDB) => {
+        if (err) {
+            borraArchivo(nombreArchivo, 'asociacion');
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!asociacionDB) {
+            borraArchivo(nombreArchivo, 'asociacion');
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'La asociación no existe'
+                }
+            });
+        }
+
+        borraArchivo(asociacionDB.logo_aso, 'asociacion');
+
+
+        asociacionDB.logo_aso = nombreArchivo;
+
+        asociacionDB.save((err, asociacionGuardado) => {
+            res.json({
+                ok: true,
+                asociacion: asociacionGuardado,
+                logo_aso: nombreArchivo
             })
         });
 
