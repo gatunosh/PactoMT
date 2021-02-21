@@ -3,10 +3,11 @@ const _ = require("underscore");
 const mantenimientomaqsocioModel = require("./../models/mantenimientomaqsocio");
 const {
     verificaToken,
+    verificaRoleMaster
 } = require("../middlewares/autenticacion");
 const app = express();
 
-app.get("/mantenimientomaqsocio", verificaToken, (req, res) => {
+app.get("/mantenimientomaqsocio", [verificaToken, verificaRoleMaster], (req, res) => {
     mantenimientomaqsocioModel.find()
         .populate('id_maq_soc.id_maq_soc')
         .exec((err, mantenimientomaqsocioDB) => {
@@ -39,22 +40,22 @@ app.get("/mantenimientomaqsocio/:id", verificaToken, (req, res) => {
     });
 });
 
-app.post("/mantenimientomaqsocio", verificaToken, (req, res) => {
+app.post("/mantenimientomaqsocio", [verificaToken, verificaRoleMaster], (req, res) => {
     let body = req.body;
 
-  let dataMantenimientomaqsocio = new mantenimientomaqsocioModel({
-    id_maq_soc: body.id_maq_soc,
-    fech_man_maq: body.fech_man_maq,
-    tipo_man_maq: body.tipo_man_maq,
-    des_man_maq: body.des_man_maq,
-    check_man_maq: body.check_man_maq,
-    costo_man_maq: body.costo_man_maq,
-    proximo_man_maq: body.proximo_man_maq,
-    marca_man_maq: body.marca_man_maq,
-    km_man_maq: body.km_man_maq,
-    placa_man_maq: body.placa_man_maq,
-    origen_man_maq: body.origen_man_maq,
-  });
+    let dataMantenimientomaqsocio = new mantenimientomaqsocioModel({
+        id_maq_soc: body.id_maq_soc,
+        fech_man_maq: body.fech_man_maq,
+        tipo_man_maq: body.tipo_man_maq,
+        des_man_maq: body.des_man_maq,
+        check_man_maq: body.check_man_maq,
+        costo_man_maq: body.costo_man_maq,
+        proximo_man_maq: body.proximo_man_maq,
+        marca_man_maq: body.marca_man_maq,
+        km_man_maq: body.km_man_maq,
+        placa_man_maq: body.placa_man_maq,
+        origen_man_maq: body.origen_man_maq,
+    });
 
     dataMantenimientomaqsocio.save((err, mantenimientomaqsocioDB) => {
         if (err) {
@@ -71,22 +72,22 @@ app.post("/mantenimientomaqsocio", verificaToken, (req, res) => {
     });
 });
 
-app.put("/mantenimientomaqsocio/:id", verificaToken, (req, res) => {
+app.put("/mantenimientomaqsocio/:id", [verificaToken, verificaRoleMaster], (req, res) => {
     let id = req.params.id;
 
-  let body = _.pick(req.body, [
-    "id_maq_soc",
-    "fech_man_maq",
-    "tipo_man_maq",
-    "des_man_maq",
-    "check_man_maq",
-    "costo_man_maq",
-    "proximo_man_maq",
-    "marca_man_maq",
-    "km_man_maq",
-    "placa_man_maq",
-    "origen_man_maq",
-  ]);
+    let body = _.pick(req.body, [
+        "id_maq_soc",
+        "fech_man_maq",
+        "tipo_man_maq",
+        "des_man_maq",
+        "check_man_maq",
+        "costo_man_maq",
+        "proximo_man_maq",
+        "marca_man_maq",
+        "km_man_maq",
+        "placa_man_maq",
+        "origen_man_maq",
+    ]);
 
     mantenimientomaqsocioModel.findByIdAndUpdate(
         id,
@@ -107,7 +108,7 @@ app.put("/mantenimientomaqsocio/:id", verificaToken, (req, res) => {
     );
 });
 
-app.delete("/mantenimientomaqsocio/:id", verificaToken, (req, res) => {
+app.delete("/mantenimientomaqsocio/:id", [verificaToken, verificaRoleMaster], (req, res) => {
     if (req.params.id) {
         let id = req.params.id;
 

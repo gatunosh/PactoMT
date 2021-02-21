@@ -1,10 +1,13 @@
 const express = require("express");
 const _ = require("underscore");
 const maquinariasocioModel = require("./../models/maquinariasocio");
-
+const {
+    verificaToken,
+    verificaRoleMaster
+} = require("../middlewares/autenticacion");
 const app = express();
 
-app.get("/maquinariasocio", (req, res) => {
+app.get("/maquinariasocio", [verificaToken, verificaRoleMaster], (req, res) => {
     maquinariasocioModel.find({})
         .populate('id_soc.id_soc')
         .exec((err, maquinariasocioDB) => {
@@ -21,7 +24,7 @@ app.get("/maquinariasocio", (req, res) => {
         });
 });
 
-app.get("/maquinariasocio/:id",(req, res) => {
+app.get("/maquinariasocio/:id", [verificaToken, verificaRoleMaster], (req, res) => {
     let id = req.params.id;
     maquinariasocioModel.findById(id, (err, maquinariasocioDB) => {
         if (err) {
@@ -37,7 +40,7 @@ app.get("/maquinariasocio/:id",(req, res) => {
     });
 });
 
-app.post("/maquinariasocio",(req, res) => {
+app.post("/maquinariasocio", [verificaToken, verificaRoleMaster], (req, res) => {
     let body = req.body;
 
     let dataMaquinariasocio = new maquinariasocioModel({
@@ -63,7 +66,7 @@ app.post("/maquinariasocio",(req, res) => {
     });
 });
 
-app.put("/maquinariasocio/:id",(req, res) => {
+app.put("/maquinariasocio/:id", [verificaToken, verificaRoleMaster], (req, res) => {
     let id = req.params.id;
 
     let body = _.pick(req.body, [
@@ -89,7 +92,7 @@ app.put("/maquinariasocio/:id",(req, res) => {
     });
 });
 
-app.delete("/maquinariasocio/:id", (req, res) => {
+app.delete("/maquinariasocio/:id", [verificaToken, verificaRoleMaster], (req, res) => {
     if (req.params.id) {
         let id = req.params.id;
 
