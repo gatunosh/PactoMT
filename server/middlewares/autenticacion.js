@@ -24,18 +24,53 @@ let verificaToken = (req, res, next) => {
 };
 
 //==================
-//  Verificar AdminRole
-//==================
-let verificaAdmin_Role = (req, res, next) => {
+//  Verificar SuperRole o AdminRole
+let verificaRoleMaster = (req, res, next) => {
     let usuario = req.usuario;
 
-    if (usuario.role === 'ADMIN_ROLE') {
+    if (usuario.role === 'ADMIN_ROLE' || usuario.role == 'SUPER_ROLE') {
         next();
     } else {
         return res.json({
             ok: false,
             err: {
                 message: 'El usuario no es administrador'
+            }
+        });
+    }
+}
+
+//==================
+//  Verificar ClienteRole
+//==================
+let verificaCliente_Role = (req, res, next) => {
+    let usuario = req.usuario;
+
+    if (usuario.role === 'CLIENTE_ROLE') {
+        next();
+    } else {
+        return res.json({
+            ok: false,
+            err: {
+                message: 'El usuario no es cliente'
+            }
+        });
+    }
+};
+
+//==================
+//  Verificar SocioRole
+//==================
+let verificaSocio_Role = (req, res, next) => {
+    let usuario = req.usuario;
+
+    if (usuario.role === 'SOCIO_ROLE' || usuario.role == 'SUPER_ROLE' || usuario.role == 'ADMIN_ROLE') {
+        next();
+    } else {
+        return res.json({
+            ok: false,
+            err: {
+                message: 'El usuario no es socio de esta asociación'
             }
         });
     }
@@ -68,6 +103,8 @@ let verificaTokenImg = (req, res, next) => {
 
 module.exports = {
     verificaToken,
-    verificaAdmin_Role,
+    verificaRoleMaster,
+    verificaCliente_Role,
+    verificaSocio_Role,
     verificaTokenImg
 }

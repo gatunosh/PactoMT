@@ -2,11 +2,11 @@ const express = require("express");
 const _ = require("underscore");
 const asociacionModel = require("./../models/asociacion");
 const {
-    verificaToken,
+    verificaToken
 } = require("../middlewares/autenticacion");
 const app = express();
 
-app.get("/asociacion", verificaToken, (req, res) => {
+app.get("/asociacion", (req, res) => {
     asociacionModel.find()
         .populate('id_soc')
         .exec((err, asociacionDB) => {
@@ -23,7 +23,7 @@ app.get("/asociacion", verificaToken, (req, res) => {
         });
 });
 
-app.get("/asociacion/:id", verificaToken, (req, res) => {
+app.get("/asociacion/:id", (req, res) => {
     let id = req.params.id;
     asociacionModel.findById(id, (err, asociacionDB) => {
         if (err) {
@@ -39,7 +39,7 @@ app.get("/asociacion/:id", verificaToken, (req, res) => {
     });
 });
 
-app.post("/asociacion", verificaToken, (req, res) => {
+app.post("/asociacion", (req, res) => {
     let body = req.body;
 
     let dataAsociacion = new asociacionModel({
@@ -66,7 +66,7 @@ app.post("/asociacion", verificaToken, (req, res) => {
     });
 });
 
-app.put("/asociacion/:id", verificaToken, (req, res) => {
+app.put("/asociacion/:id", (req, res) => {
     let id = req.params.id;
 
     let body = _.pick(req.body, [
@@ -93,7 +93,7 @@ app.put("/asociacion/:id", verificaToken, (req, res) => {
     });
 });
 
-app.delete("/asociacion/:id", verificaToken, (req, res) => {
+app.delete("/asociacion/:id", (req, res) => {
     if (req.params.id) {
         let id = req.params.id;
 
