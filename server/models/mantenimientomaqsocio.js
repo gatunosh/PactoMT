@@ -38,23 +38,6 @@ let manmaquisocSchema = new Schema({
     type: String,
     required: [true, "El detalle del proximo mantenimiento es requerido"],
   },
-  marca_man_maq: {
-    type: String,
-    required: [true, "La marca de la maquinaria es requerido"],
-  },
-  km_man_maq: {
-    type: String,
-    required: [true, "El kilometraje de la maquinaria es requerido"],
-  },
-  placa_man_maq: {
-    type: String,
-    required: [true, "El costo del mantenimiento es requerido"],
-  },
-  origen_man_maq: {
-    type: String,
-    required: [true, "El costo del mantenimiento es requerido"],
-  },
-
 });
 
 module.exports = mongoose.model("Mantenimientomaqsocio", manmaquisocSchema);
