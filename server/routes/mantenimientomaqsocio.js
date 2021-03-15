@@ -43,6 +43,17 @@ app.get("/mantenimientomaqsocio/:id", verificaToken, (req, res) => {
 app.post("/mantenimientomaqsocio", [verificaToken, verificaRoleMaster], (req, res) => {
     let body = req.body;
 
+<<<<<<< HEAD
+  let dataMantenimientomaqsocio = new mantenimientomaqsocioModel({
+    id_maq_soc: body.id_maq_soc,
+    fech_man_maq: body.fech_man_maq,
+    tipo_man_maq: body.tipo_man_maq,
+    des_man_maq: body.des_man_maq,
+    check_man_maq: body.check_man_maq,
+    costo_man_maq: body.costo_man_maq,
+    proximo_man_maq: body.proximo_man_maq,
+  });
+=======
     let dataMantenimientomaqsocio = new mantenimientomaqsocioModel({
         id_maq_soc: body.id_maq_soc,
         fech_man_maq: body.fech_man_maq,
@@ -56,6 +67,7 @@ app.post("/mantenimientomaqsocio", [verificaToken, verificaRoleMaster], (req, re
         placa_man_maq: body.placa_man_maq,
         origen_man_maq: body.origen_man_maq,
     });
+>>>>>>> d58317ae8cdaa3790d78e194759ab872a2a10d6a
 
     dataMantenimientomaqsocio.save((err, mantenimientomaqsocioDB) => {
         if (err) {
@@ -75,6 +87,17 @@ app.post("/mantenimientomaqsocio", [verificaToken, verificaRoleMaster], (req, re
 app.put("/mantenimientomaqsocio/:id", [verificaToken, verificaRoleMaster], (req, res) => {
     let id = req.params.id;
 
+<<<<<<< HEAD
+  let body = _.pick(req.body, [
+    "id_maq_soc",
+    "fech_man_maq",
+    "tipo_man_maq",
+    "des_man_maq",
+    "check_man_maq",
+    "costo_man_maq",
+    "proximo_man_maq",
+  ]);
+=======
     let body = _.pick(req.body, [
         "id_maq_soc",
         "fech_man_maq",
@@ -88,6 +111,7 @@ app.put("/mantenimientomaqsocio/:id", [verificaToken, verificaRoleMaster], (req,
         "placa_man_maq",
         "origen_man_maq",
     ]);
+>>>>>>> d58317ae8cdaa3790d78e194759ab872a2a10d6a
 
     mantenimientomaqsocioModel.findByIdAndUpdate(
         id,
