@@ -49,6 +49,10 @@ app.post("/maquinariasocio", [verificaToken, verificaRoleMaster], (req, res) => 
         tipo_maq: body.tipo_maq,
         est_maq: body.est_maq,
         asociacion_maq: body.asociacion_maq,
+        marca_man_maq: body.marca_man_maq,
+        km_man_maq: body.km_man_maq,
+        placa_man_maq: body.placa_man_maq,
+        origen_man_maq: body.origen_man_maq,
     });
 
     dataMaquinariasocio.save((err, maquinariasocioDB) => {
@@ -75,6 +79,10 @@ app.put("/maquinariasocio/:id", [verificaToken, verificaRoleMaster], (req, res) 
         "tipo_maq",
         "est_maq",
         "asociacion_maq",
+        "marca_man_maq",
+        "km_man_maq",
+        "placa_man_maq",
+        "origen_man_maq",
     ]);
 
     maquinariasocioModel.findByIdAndUpdate(id, body, (err, maquinariasocioDB) => {
