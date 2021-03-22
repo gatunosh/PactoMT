@@ -48,7 +48,6 @@ app.post("/mantenimientomaqsocio", [verificaToken, verificaRoleMaster], (req, re
         fech_man_maq: body.fech_man_maq,
         tipo_man_maq: body.tipo_man_maq,
         des_man_maq: body.des_man_maq,
-        check_man_maq: body.check_man_maq,
         costo_man_maq: body.costo_man_maq,
         proximo_man_maq: body.proximo_man_maq,
     });
@@ -76,11 +75,9 @@ app.put("/mantenimientomaqsocio/:id", [verificaToken, verificaRoleMaster], (req,
         "fech_man_maq",
         "tipo_man_maq",
         "des_man_maq",
-        "check_man_maq",
         "costo_man_maq",
         "proximo_man_maq",
     ]);
-
     mantenimientomaqsocioModel.findByIdAndUpdate(
         id,
         body,
