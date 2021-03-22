@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 
 let maquisocSchema = new Schema({
-    
+
     id_soc: {
         type: Schema.Types.ObjectId,
         ref: "Usuarios",
@@ -21,25 +21,24 @@ let maquisocSchema = new Schema({
         required: [true, "El estado de maquinaria es requerido"],
     },
     asociacion_maq: {
-         type: String,
-        required: [true, "La asosiacion de maquinaria es requerido"],
+        type: String
     },
-    marca_man_maq: {
+    marca_maq: {
         type: String,
         required: [true, "La marca de la maquinaria es requerido"],
-      },
-      km_man_maq: {
+    },
+    km_maq: {
         type: String,
         required: [true, "El kilometraje de la maquinaria es requerido"],
-      },
-      placa_man_maq: {
+    },
+    placa_maq: {
         type: String,
         required: [true, "El costo del mantenimiento es requerido"],
-      },
-      origen_man_maq: {
+    },
+    origen_maq: {
         type: String,
         required: [true, "El costo del mantenimiento es requerido"],
-      },
+    },
 });
 
 module.exports = mongoose.model("Maquinariasocio", maquisocSchema);
