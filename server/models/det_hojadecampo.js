@@ -137,35 +137,35 @@ let det_hojacampoSchema = new Schema({
         required: [true, 'La comercializacion es requerido']
     },
     subjornal: {
-        type: String,
+        type: Number,
         required: [true, 'El subjornal es requerido']
     },
     costojornal: {
-        type: String,
+        type: Number,
         required: [true, 'El costo de la jornada es requerido']
     },
     costomanoobra: {
-        type: String,
+        type: Number,
         required: [true, 'El costo de la mano de obra es requerido']
     },
     manoobrafam: {
-        type: String,
+        type: Number,
         required: [true, 'La mano de obra familiar es requerido']
     },
     totmanoobra: {
-        type: String,
+        type: Number,
         required: [true, 'El total de la mano de obra es requerido']
     },
     combustible: {
-        type: String,
+        type: Number,
         required: [true, 'El combustible es requerido']
     },
     transporte: {
-        type: String,
+        type: Number,
         required: [true, 'El transporte es requerido']
     },
     mantenimiento: {
-        type: String,
+        type: Number,
         required: [true, 'El mantenimiento es requerido']
     },
     cana: {
@@ -173,7 +173,7 @@ let det_hojacampoSchema = new Schema({
         required: [true, 'La cana es requerida']
     },
     totallaborescult: {
-        type: String,
+        type: Number,
         required: [true, 'El total de las labores del cultivo es requerido']
     },
     trapicheyhorno: {
@@ -181,15 +181,15 @@ let det_hojacampoSchema = new Schema({
         required: [true, 'El trapiche y el horno es requerido']
     },
     tinasyutencillos: {
-        type: String,
+        type: Number,
         required: [true, 'Las tinas y los utencillos es requerido']
     },
     infraestructura: {
-        type: String,
+        type: Number,
         required: [true, 'La infraestructura es requerido']
     },
     totalequiposymaquinaria: {
-        type: String,
+        type: Number,
         required: [true, 'El total de los equipos y la maquinaria es requerido']
     }
 });
