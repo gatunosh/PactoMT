@@ -58,6 +58,11 @@ app.put('/upload/:tipo/:id', [verificaToken, verificaRoleMaster], (req, res) => 
         });
     }
 
+
+
+
+
+
     //Cambiar nombre al archivo
     let nombreArchivo = `${id}-${ new Date().getMilliseconds()}.${extension}`;
 
