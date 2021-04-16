@@ -57,11 +57,11 @@ app.post("/factura", verificaToken, async(req, res) => {
     let detalle = body.detalle;
     let total = 0;
     for (let item in body.detalle) {
-        var subtotal;
-        var producto = detalle[item];
+        let subtotal;
+        let producto = detalle[item];
         await productoModel.findOne(producto["id"], (err, productoDB) => {
             if (err) {
-                res.status(400).json({
+                return res.status(400).json({
                     ok: false,
                     err,
                 });
@@ -76,7 +76,7 @@ app.post("/factura", verificaToken, async(req, res) => {
                 },
                 (err, productoDB) => {
                     if (err) {
-                        res.status(400).json({
+                        return res.status(400).json({
                             ok: false,
                             err,
                         });
